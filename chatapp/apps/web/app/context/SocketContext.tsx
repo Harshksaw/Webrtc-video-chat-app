@@ -1,15 +1,17 @@
+'use client'
 import { createContext, useContext } from "react";
-import { io, Socket } from "socket.io-client";
+import SocketIoClient from "socket.io-client";
 
-const WS_Server = "http://localhost:5500";
+const WS_Server = "http://localhost:3001";
 
-interface ISocketContext {
-    socket: Socket;
-}
 
-const SocketContext = createContext<ISocketContext | null>(null);
+export const SocketContext = createContext<any | null>(null);
 
-const socket = io(WS_Server);
+const socket = SocketIoClient(WS_Server,{
+    withCredentials: false,
+    transports:["polling", "websocket"]
+
+});
 
 interface Props {
     children: React.ReactNode;
