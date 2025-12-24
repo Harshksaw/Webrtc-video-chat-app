@@ -23,10 +23,13 @@ const CreateRoom: React.FC = () => {
     }
 
     return (
-        <button onClick={initRoom}
-            className="btn btn-primary w-full"
+        <button
+            onClick={initRoom}
+            className="btn btn-primary w-full btn-lg text-white font-semibold btn-glow hover:scale-105 transition-transform text-base sm:text-lg"
         >
-            Start a New Meeting
+        
+        
+            <span className="text-base sm:text-lg">Start a New Meeting</span>
         </button>
     );
 }

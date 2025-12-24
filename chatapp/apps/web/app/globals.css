@@ -1,3 +1,92 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+/* Base Styles */
+body {
+  background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 50%, #faf5ff 100%);
+  min-height: 100vh;
+  color: #111827;
+}
+
+/* Ensure all text is readable with dark colors */
+* {
+  color: inherit;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111827;
+  font-weight: 700;
+}
+
+p, span, div {
+  color: #1f2937;
+}
+
+/* Gradient text for headings */
+.gradient-text {
+  background: linear-gradient(to right, #4f46e5, #7c3aed);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+  font-weight: 800;
+}
+
+/* Card hover effect */
+.card-hover {
+  transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  transform: scale(1.02);
+}
+
+/* Button glow effect */
+.btn-glow {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.btn-glow:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* Video placeholder */
+.video-placeholder {
+  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+  border: 2px solid #d1d5db;
+}
+
+/* Override DaisyUI defaults to ensure text visibility */
+.btn {
+  font-weight: 600;
+}
+
+.btn-primary {
+  color: #ffffff !important;
+}
+
+.btn-secondary {
+  color: #ffffff !important;
+}
+
+.btn-error {
+  color: #ffffff !important;
+}
+
+.input {
+  color: #111827 !important;
+  background-color: #ffffff;
+}
+
+.input::placeholder {
+  color: #9ca3af;
+}
+
+.label-text {
+  color: #111827 !important;
+  font-weight: 600;
+}
+
+.divider {
+  color: #6b7280 !important;
+}
