@@ -1,35 +1,47 @@
 'use client'
 import { useContext, useEffect, useState } from "react";
 import { SocketContext } from "../../context/SocketContext";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 
 export default function RoomPage() {
-    const { socket } = useContext(SocketContext);
-    const params = useParams();
+    const { socket, user } = useContext(SocketContext);
+    const id = useParams()
     const router = useRouter();
-    const roomId = params.roomId as string;
+    const roomId = id.roomId as string;
     const [isConnected, setIsConnected] = useState(false);
+    const fetchParticipantList = ({ roomId, participants }: { roomId: string, participants: string[] }) => {
+        console.log("Participants:", participants);
 
+    }
     useEffect(() => {
-        if (!roomId) return;
 
-        socket.emit("join_room", { roomId });
+        if (user) {
+            socket.emit("joined_room", { roomId, peerId: user?.id });
+            socket.on("get-users", fetchParticipantList)
 
-        socket.on("user_joined", ({ userId }: { userId: string }) => {
-            console.log("User joined:", userId);
-            setIsConnected(true);
-        });
+        }
 
-        socket.on("user_left", ({ userId }: { userId: string }) => {
-            console.log("User left:", userId);
-        });
 
-        return () => {
-            socket.emit("leave_room", { roomId });
-            socket.off("user_joined");
-            socket.off("user_left");
-        };
-    }, [roomId, socket]);
+
+
+
+
+        // socket.on("user_joined", ({ userId }: { userId: string }) => {
+        //     console.log("User joined:", userId);
+        //     setIsConnected(true);
+        // });
+
+        // socket.on("user_left", ({ userId }: { userId: string }) => {
+        //     console.log("User left:", userId);
+        // });
+
+        // return () => {
+        //     socket.emit("leave_room", { roomId });
+        //     socket.off("user_joined");
+        //     socket.off("user_left");
+        // };
+    }, [id, user, socket]);
 
     const handleLeaveRoom = () => {
         socket.emit("leave_room", { roomId });
