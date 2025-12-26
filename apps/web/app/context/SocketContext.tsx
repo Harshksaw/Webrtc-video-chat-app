@@ -10,7 +10,7 @@ import { addPeerAction } from "../actions/peerAction";
 
 // Socket.IO Server Configuration
 const isProduction = process.env.NODE_ENV === "production";
-const WS_Server = process.env.NEXT_PUBLIC_SOCKET_URL || (isProduction ? "https://webrtc-video-chat-app.onrender.com" : "http://localhost:3001");
+const WS_Server = process.env.NEXT_PUBLIC_SOCKET_URL || (isProduction ? "https://webrtc-video-chat-app-1.onrender.com" : "http://localhost:3001");
 
 
 export const SocketContext = createContext<any | null>(null);
@@ -45,7 +45,7 @@ export const SocketProvider: React.FC<Props> = ({ children }) => {
         const isProduction = process.env.NODE_ENV === "production";
 
         // PeerJS Server Configuration
-        const peerHost = process.env.NEXT_PUBLIC_PEER_HOST || (isProduction ? "webrtc-video-chat-app.onrender.com" : "localhost");
+        const peerHost = process.env.NEXT_PUBLIC_PEER_HOST || (isProduction ? "webrtc-video-chat-app-1.onrender.com" : "localhost");
         const peerPort = process.env.NEXT_PUBLIC_PEER_PORT ? parseInt(process.env.NEXT_PUBLIC_PEER_PORT) : (isProduction ? 443 : 9000);
         const peerPath = process.env.NEXT_PUBLIC_PEER_PATH || "/peerjs";
         const peerSecure = process.env.NEXT_PUBLIC_PEER_SECURE ? process.env.NEXT_PUBLIC_PEER_SECURE === "true" : isProduction;
