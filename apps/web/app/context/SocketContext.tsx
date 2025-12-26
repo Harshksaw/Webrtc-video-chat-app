@@ -8,7 +8,9 @@ import { v4 as uuidv4 } from "uuid";
 import { peerReducer } from "../reducers/peerReducer";
 import { addPeerAction } from "../actions/peerAction";
 
-const WS_Server = "http://localhost:3001";
+// Socket.IO Server Configuration
+const isProduction = process.env.NODE_ENV === "production";
+const WS_Server = process.env.NEXT_PUBLIC_SOCKET_URL || (isProduction ? "https://webrtc-video-chat-app.onrender.com" : "http://localhost:3001");
 
 
 export const SocketContext = createContext<any | null>(null);
@@ -41,14 +43,18 @@ export const SocketProvider: React.FC<Props> = ({ children }) => {
 
     useEffect(() => {
         const isProduction = process.env.NODE_ENV === "production";
-        const backendUrl = process.env.NEXT_PUBLIC_API_URL ;
-        const url = new URL(backendUrl);
+
+        // PeerJS Server Configuration
+        const peerHost = process.env.NEXT_PUBLIC_PEER_HOST || (isProduction ? "webrtc-video-chat-app.onrender.com" : "localhost");
+        const peerPort = process.env.NEXT_PUBLIC_PEER_PORT ? parseInt(process.env.NEXT_PUBLIC_PEER_PORT) : (isProduction ? 443 : 9000);
+        const peerPath = process.env.NEXT_PUBLIC_PEER_PATH || "/peerjs";
+        const peerSecure = process.env.NEXT_PUBLIC_PEER_SECURE ? process.env.NEXT_PUBLIC_PEER_SECURE === "true" : isProduction;
 
         const newPeer = new Peer(uuidv4(), {
-            host: url.hostname,
-            port: isProduction ? 443 : parseInt(url.port) || 3001,
-            path: "/peerjs",
-            secure: isProduction || url.protocol === 'https:',
+            host: peerHost,
+            port: peerPort,
+            path: peerPath,
+            secure: peerSecure,
             debug: 3
         });
 
