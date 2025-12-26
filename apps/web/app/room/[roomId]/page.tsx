@@ -6,7 +6,7 @@ import { useParams } from "next/navigation";
 import UserFeedPlayer from "../../components/UserFeedPlayer";
 
 export default function RoomPage() {
-    const { socket, user, stream } = useContext(SocketContext);
+    const { socket, user, stream , peer} = useContext(SocketContext);
     const id = useParams()
     const router = useRouter();
     const roomId = id.roomId as string;
@@ -110,31 +110,11 @@ export default function RoomPage() {
 
                     {/* Remote Video */}
                     <div className="relative group">
-                        {remoteStream ? (
-                            <div className="aspect-video rounded-xl md:rounded-2xl overflow-hidden shadow-xl">
-                                <UserFeedPlayer stream={remoteStream} />
-                            </div>
-                        ) : (
-                            <div className="aspect-video video-placeholder rounded-xl md:rounded-2xl flex items-center justify-center overflow-hidden shadow-xl">
-                                <div className="text-center px-4">
-                                    <div className="text-5xl sm:text-6xl mb-3 md:mb-4">
-                                        {isConnected ? "📹" : "⏳"}
-                                    </div>
-                                    <p className="text-sm sm:text-base font-semibold text-gray-700">
-                                        {isConnected ? "Remote Video" : "Waiting for peer..."}
-                                    </p>
-                                    {isConnected && (
-                                        <div className="mt-2 px-3 py-1 bg-purple-100 text-purple-800 rounded-full inline-block text-xs sm:text-sm font-medium">
-                                            Peer
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                        )}
-                        <div className="absolute top-3 sm:top-4 left-3 sm:left-4 bg-black/60 backdrop-blur-sm text-white px-2 sm:px-3 py-1 rounded-md sm:rounded-lg text-xs sm:text-sm font-semibold">
-                            {isConnected ? "Remote" : "Connecting..."}
-                        </div>
+                        {Object.keys(peer).map((peerId)=>(
+                            <UserFeedPlayer key={peerId} stream={peer[peerId]} />
+                        ))}
                     </div>
+                        
                 </div>
 
                 {/* Controls */}
