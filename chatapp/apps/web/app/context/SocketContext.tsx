@@ -45,10 +45,10 @@ export const SocketProvider: React.FC<Props> = ({ children }) => {
         const url = new URL(backendUrl);
 
         const newPeer = new Peer(uuidv4(), {
-            host: isProduction ? url.hostname : "localhost",
-            port: isProduction ? 443 : 9000,
-            path: isProduction ? "/peerjs" : "/",
-            secure: isProduction,
+            host: url.hostname,
+            port: isProduction ? 443 : parseInt(url.port) || 3001,
+            path: "/peerjs",
+            secure: isProduction || url.protocol === 'https:',
             debug: 3
         });
 

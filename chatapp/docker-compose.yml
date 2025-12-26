@@ -13,8 +13,4 @@ services:
     volumes:
       - ./apps/api/src:/app/src
 
-  peerjs:
-    image: peerjs/peerjs-server:latest
-    ports:
-      - "9000:9000"
-    command: ["--port", "9000", "--path", "/"]
+

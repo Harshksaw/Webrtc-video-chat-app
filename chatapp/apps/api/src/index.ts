@@ -6,12 +6,17 @@ import { Server } from 'socket.io';
 import cors from 'cors';
 import roomHandler from './handlers/roomHandler';
 
+
 app.get('/api/health', (req: Request, res: Response) => {
     res.json({ status: 'ok' });
 });
 
 
+import { ExpressPeerServer } from "peer";
+
 const server = http.createServer(app);
+const peerServer = ExpressPeerServer(server, { path: "/peerjs" });
+app.use("/peerjs", peerServer);
 
 const io = new Server(server, {
     cors: {
