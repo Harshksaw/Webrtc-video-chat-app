@@ -64,13 +64,6 @@ export const SocketProvider: React.FC<Props> = ({ children }) => {
         setUser(newPeer);
         fetchUserFeed();
 
-        const enterRoom = ({ roomId }: { roomId: string }) => {
-            router.push(`/room/${roomId}`);
-
-        }
-
-        socket.on("room_created", enterRoom)
-
 
 
     }, []);

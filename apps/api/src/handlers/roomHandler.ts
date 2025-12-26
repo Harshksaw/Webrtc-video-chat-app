@@ -7,7 +7,7 @@ import IRoomParams from "../interfaces/IRoomParams";
  * {1: [u1, u2, u3], 2: [u4,u5,u6]}
  */
 
-const rooms : Record<string, string[]> = {};
+const rooms: Record<string, string[]> = {};
 
 const roomHandler = (socket: Socket) => {
 
@@ -25,7 +25,7 @@ const roomHandler = (socket: Socket) => {
 
         // we will emit an event from server side that
         // socket connection has been added to a room
-        socket.emit("room-created", { roomId });
+        socket.emit("room_created", { roomId });
         console.log("Room created with id", roomId);
     };
 
@@ -34,9 +34,9 @@ const roomHandler = (socket: Socket) => {
      * The below function is executed everytime a user(creator or joinee) joins
      * a new room
      */
-    const joinedRoom = ({ roomId, peerId } : IRoomParams) => {
+    const joinedRoom = ({ roomId, peerId }: IRoomParams) => {
         console.log("joined room called", rooms, roomId, peerId);
-        if(rooms[roomId]) {
+        if (rooms[roomId]) {
             // If the given roomId exist in the in memory db
             console.log("New user has joined room", roomId, "with peer id as", peerId);
             // the moment new user joins, add the peerId to the key of roomId
@@ -49,7 +49,7 @@ const roomHandler = (socket: Socket) => {
             socket.on("ready", () => {
                 // from the frontend once someone joins the room we will emit a ready event
                 // then from our server we will emit an event to all the clients conn that a new peer has added
-                socket.to(roomId).emit("user-joined", {peerId}); 
+                socket.to(roomId).emit("user-joined", { peerId });
             })
 
             // below event is for logging purpose
@@ -66,8 +66,8 @@ const roomHandler = (socket: Socket) => {
 
     // We will call the above two function when the client will
     // emit events top create room and join room
-    socket.on("create-room", createRoom);
-    socket.on("joined-room", joinedRoom);
+    socket.on("create_room", createRoom);
+    socket.on("join_room", joinedRoom);
 
 
 };
