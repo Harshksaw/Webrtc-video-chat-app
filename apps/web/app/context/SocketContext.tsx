@@ -10,7 +10,7 @@ import { addPeerAction } from "../actions/peerAction";
 
 // Socket.IO Server Configuration
 const isProduction = process.env.NODE_ENV === "production";
-const WS_Server = process.env.NEXT_PUBLIC_SOCKET_URL || (isProduction ? "https://webrtc-video-chat-app-1.onrender.com" : "http://localhost:3001");
+const WS_Server = process.env.NEXT_PUBLIC_SOCKET_URL || (isProduction ? "https://webrtc-video-chat-app.onrender.com" : "http://localhost:3001");
 
 
 export const SocketContext = createContext<any | null>(null);
