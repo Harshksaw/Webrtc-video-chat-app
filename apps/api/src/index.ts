@@ -1,22 +1,16 @@
-import express, { type Request, type Response } from 'express';
-import { PORT } from './config/serverConfig';
+import express from "express";
+import ServerConfig from "./config/serverConfig";
+import { Server } from "socket.io";
+import http from "http";
+import cors from "cors";
+import roomHandler from "./handlers/roomHandler";
+
+
 const app = express();
-import http from 'http';
-import { Server } from 'socket.io';
-import cors from 'cors';
-import roomHandler from './handlers/roomHandler';
 
-
-app.get('/api/health', (req: Request, res: Response) => {
-    res.json({ status: 'ok' });
-});
-
-
-import { ExpressPeerServer } from "peer";
+app.use(cors());
 
 const server = http.createServer(app);
-const peerServer = ExpressPeerServer(server, { path: "/peerjs" });
-app.use("/peerjs", peerServer);
 
 const io = new Server(server, {
     cors: {
@@ -25,16 +19,14 @@ const io = new Server(server, {
     }
 });
 
-
-
 io.on("connection", (socket) => {
-    console.log("a user connected");
-
-    roomHandler(socket);
+    console.log("New user connected");
+    roomHandler(socket); // pass the socket conn to the room handler for room creation and joining
     socket.on("disconnect", () => {
-        console.log("user disconnected");
+        console.log("User disconnected");
     });
 });
 
-
-server.listen(PORT, () => console.log(`API on http://localhost:${PORT}`));
+server.listen(ServerConfig.PORT, () => {
+    console.log(`Server is up at port ${ServerConfig.PORT}`);
+});
