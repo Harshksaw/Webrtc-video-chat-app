@@ -1,5 +1,5 @@
 'use client'
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { createContext, useContext, useState, useEffect } from "react";
 
 import SocketIoClient from "socket.io-client";
@@ -11,9 +11,9 @@ const WS_Server = "http://localhost:3001";
 
 export const SocketContext = createContext<any | null>(null);
 
-const socket = SocketIoClient(WS_Server,{
+const socket = SocketIoClient(WS_Server, {
     withCredentials: false,
-    transports:["polling", "websocket"]
+    transports: ["polling", "websocket"]
 
 });
 
@@ -26,24 +26,34 @@ interface Props {
 export const SocketProvider: React.FC<Props> = ({ children }) => {
 
     const router = useRouter();
+    const [stream, setStream] = useState<MediaStream | null>(null);
 
     const [user, setUser] = useState<Peer | null>(null);
+
+    const fetchUserFeed = async () => {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+        setStream(stream);
+    }
 
     useEffect(() => {
         const userId = uuidv4();
         const newPeer = new Peer(userId);
 
 
-        setUser(newPeer);
 
-        const enterRoom = ({roomId}: {roomId: string}) => {
+
+        setUser(newPeer);
+        fetchUserFeed();
+
+        const enterRoom = ({ roomId }: { roomId: string }) => {
             router.push(`/room/${roomId}`);
 
         }
 
-        socket.on("room-created", enterRoom)
+        socket.on("room_created", enterRoom)
 
-       
+
+
     }, []);
 
 
@@ -51,7 +61,7 @@ export const SocketProvider: React.FC<Props> = ({ children }) => {
 
 
     return (
-        <SocketContext.Provider value={{ socket }}>
+        <SocketContext.Provider value={{ socket, user, stream }}>
             {children}
         </SocketContext.Provider>
     );
