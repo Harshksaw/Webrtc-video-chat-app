@@ -28,9 +28,10 @@ const roomHandler = (socket: Socket) => {
             socket.join(roomId);
             // socket.to(roomId).emit("user_joined", { userId: peerId });
             // socket.emit("joined_room", { roomId });
-            socket.emit("get-users",{
-                roomId,
-                participants: rooms[roomId]
+            socket.on("ready", ()=>{
+                //from the forntne donce someone joins the room will emit a ready event
+                //then from our server we wil emt an evnt to all the clients conn that a peer has added
+                socket.to(roomId).emit("user_joined", {  peerId });
             })
         }else {
             rooms[roomId] = [peerId];
