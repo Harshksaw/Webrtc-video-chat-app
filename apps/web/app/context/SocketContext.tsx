@@ -42,12 +42,12 @@ export const SocketProvider: React.FC<Props> = ({ children }) => {
     }
 
     useEffect(() => {
-        const isProduction = process.env.NODE_ENV === "production";
+        const isProduction = true;
 
         // PeerJS Server Configuration
         const peerHost = process.env.NEXT_PUBLIC_PEER_HOST || (isProduction ? "webrtc-video-chat-app-1.onrender.com" : "localhost");
         const peerPort = process.env.NEXT_PUBLIC_PEER_PORT ? parseInt(process.env.NEXT_PUBLIC_PEER_PORT) : (isProduction ? 443 : 9000);
-        const peerPath = process.env.NEXT_PUBLIC_PEER_PATH || "/peerjs";
+        const peerPath = process.env.NEXT_PUBLIC_PEER_PATH || (isProduction ? "/" : "/peerjs");
         const peerSecure = process.env.NEXT_PUBLIC_PEER_SECURE ? process.env.NEXT_PUBLIC_PEER_SECURE === "true" : isProduction;
 
         const newPeer = new Peer(uuidv4(), {
