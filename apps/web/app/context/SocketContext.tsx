@@ -41,7 +41,7 @@ export const SocketProvider: React.FC<Props> = ({ children }) => {
 
     useEffect(() => {
         const isProduction = process.env.NODE_ENV === "production";
-        const backendUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+        const backendUrl = process.env.NEXT_PUBLIC_API_URL ;
         const url = new URL(backendUrl);
 
         const newPeer = new Peer(uuidv4(), {
