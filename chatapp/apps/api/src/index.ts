@@ -5,7 +5,7 @@ import http from 'http';
 import { Server } from 'socket.io';
 import cors from 'cors';
 import roomHandler from './handlers/roomHandler';
-    
+
 app.get('/api/health', (req: Request, res: Response) => {
     res.json({ status: 'ok' });
 });
@@ -19,6 +19,8 @@ const io = new Server(server, {
         methods: ["GET", "POST"]
     }
 });
+
+
 
 io.on("connection", (socket) => {
     console.log("a user connected");

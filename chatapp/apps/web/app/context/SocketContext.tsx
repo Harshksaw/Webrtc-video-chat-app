@@ -36,8 +36,17 @@ export const SocketProvider: React.FC<Props> = ({ children }) => {
     }
 
     useEffect(() => {
-        const userId = uuidv4();
-        const newPeer = new Peer(userId);
+        const isProduction = process.env.NODE_ENV === "production";
+        const backendUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+        const url = new URL(backendUrl);
+
+        const newPeer = new Peer(uuidv4(), {
+            host: isProduction ? url.hostname : "localhost",
+            port: isProduction ? 443 : 9000,
+            path: isProduction ? "/peerjs" : "/",
+            secure: isProduction,
+            debug: 3
+        });
 
 
 
